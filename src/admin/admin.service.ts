@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { AdminDTO } from "./admin.dto";
+import { Multer } from "multer";
 
 @Injectable()
 export class AdminService {
@@ -31,5 +32,9 @@ export class AdminService {
 
     getUsersByNameAndId(name: string, id: string): object{
         return {message: "You id is " + id  +" and your name is "+ name};
+    }
+
+    uploadFile(file: Express.Multer.File): object {
+        return {message: "Your file upload is complete" +file};
     }
 }
