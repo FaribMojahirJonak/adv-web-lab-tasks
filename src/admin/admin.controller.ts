@@ -3,26 +3,43 @@ import { AdminService } from "./admin.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { MulterError , diskStorage } from "multer";
 import { AdminDTO } from "./admin.dto";
+import {updatedAdminDTO} from "./admin.dto";
 
 @Controller('/admin')
 export class AdminController{
     constructor(private readonly adminService: AdminService){}
 
+    // create user
     @Post('adduser')
     @UsePipes(new ValidationPipe)
-    async addUser(@Body() myobj: AdminDTO): Promise<AdminDTO>{
+    async addUser(@Body() myobj: updatedAdminDTO): Promise<updatedAdminDTO>{
         return this.adminService.addUser(myobj);
     }
 
-    @Get('getuser')
-    getUsers(): object{
-        return this.adminService.getUsers();
+
+    // get user by partial match
+    @Get('getusers/:name')
+    getUsers(@Param('name') name: string){
+        console.log(name);
+        return this.adminService.getUsers(name);
     }
 
-    @Delete('deleteuser/:id')
+    // get user by username
+    @Get('getuser/:username')
+    getUserByUsername(@Param('username') username: string): object {
+        return this.adminService.getUserByUsername(username);
+    }
+
+    // delete user by username
+    @Delete('deleteuserbyusername/:username')
+    async deleteUserByUsername(@Param('username') username: string): Promise<void> {
+        return this.adminService.deleteUserByUsername(username);
+    }
+
+    /* @Delete('deleteuser/:id')
     deleteUser(@Param('id') id: string): object {
         return this.adminService.deleteUser(id);
-    }
+    } */
 
     @Put('updateuser/:id')
     async updateUser(@Param('id') id: string, @Body() myobj: AdminDTO): Promise<AdminDTO> {

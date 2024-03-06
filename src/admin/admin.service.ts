@@ -1,15 +1,42 @@
 import { Injectable } from "@nestjs/common";
 import { AdminDTO } from "./admin.dto";
 import { Multer } from "multer";
+import {updatedAdminDTO} from "./admin.dto";
+import { AdminEntity } from './admin.entity';
+import { Like, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+
 
 @Injectable()
 export class AdminService {
-    async addUser(myobj:AdminDTO):Promise<AdminDTO>{
-        return myobj;   
+    constructor(
+        @InjectRepository(AdminEntity) 
+        private adminRepo: Repository<AdminEntity>,
+      )
+      {}
+
+    // create user
+    async addUser(myobj:updatedAdminDTO):Promise<AdminEntity>{
+        return this.adminRepo.save(myobj);   
     }
 
-    getUsers(): object{
-        return {message: "users"}
+    // get user by partial match
+    getUsers(name:string): Promise<AdminEntity[]>{
+        return this.adminRepo.find({
+            where: {
+                fullname: Like(`%${name}%`),
+            },
+        });
+    }
+
+    // get user by username
+    async getUserByUsername(username: string): Promise<AdminEntity> {
+        return this.adminRepo.findOneBy({ username: username });
+    }
+
+    // delete user by username
+    async deleteUserByUsername(username: string): Promise<void> {
+        await this.adminRepo.delete(username)
     }
 
     deleteUser(id: string): object {

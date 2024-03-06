@@ -26,3 +26,10 @@ export class AdminDTO{
     @Matches(/^018-\d{7}$/)
     phoneNumber:string
 }
+
+export class updatedAdminDTO {
+    id: number
+    username: string
+    fullname: string
+    isActive: boolean
+}
