@@ -31,7 +31,7 @@ export class AdminController{
     }
 
     // delete user by username
-    @Delete('deleteuserbyusername/:username')
+    @Delete('deleteuser/:username')
     async deleteUserByUsername(@Param('username') username: string): Promise<void> {
         return this.adminService.deleteUserByUsername(username);
     }

@@ -36,12 +36,13 @@ export class AdminService {
 
     // delete user by username
     async deleteUserByUsername(username: string): Promise<void> {
-        await this.adminRepo.delete(username)
+        console.log(username);
+        await this.adminRepo.delete({username: username})
     }
 
-    deleteUser(id: string): object {
+    /* deleteUser(id: string): object {
         return { message: `User with id ${id} deleted` };
-    }
+    } */
 
     async updateUser(id: string, myobj: AdminDTO): Promise<AdminDTO> {
 

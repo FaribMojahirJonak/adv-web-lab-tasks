@@ -1,4 +1,4 @@
-import { Contains, IsAlpha, IsEmail, IsInt, IsNotEmpty, IsPhoneNumber, IsString, Matches, isNotEmpty, IsNumber } from "class-validator";
+import { Contains, IsAlpha, IsEmail, IsInt, IsNotEmpty, IsPhoneNumber, IsString, Matches, isNotEmpty, IsNumber, IsBoolean } from "class-validator";
 
 export class AdminDTO{
     @IsString()
@@ -29,7 +29,12 @@ export class AdminDTO{
 
 export class updatedAdminDTO {
     id: number
+
+    @IsString()
     username: string
+
+    @IsString()
     fullname: string
+
     isActive: boolean
 }
